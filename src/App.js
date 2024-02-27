@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
 
   const [selectedImg, setSelectedImg] = useState(null);
-  
+
   const handleImgUpload = (event) => {
     // console.log(event.target.files[0])
     if (setSelectedImg) {
@@ -16,14 +16,13 @@ function App() {
 
       fetch(uploadEndPoint, {
         method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      
-      }).then((response)=>response.json())
-        .then((data)=> {
+        body: formData
+       
+
+      }).then((response) => response.json())
+        .then((data) => {
           toast.success('Image uploaded successfully')
+          console.log("Uploaded successfully");
         })
         .catch((error) => toast.error(error))
     }
@@ -31,7 +30,7 @@ function App() {
   }
   return (
     <div className='grid grid-cols-5'>
-      <div className='col-span-2 bg-blue-300'>
+      <div className='col-span-2 border-r-2 border-gray-500'>
         <div className='flex flex-col mb-4 justify-center items-center'>
           <h2 className='text-2xl text-gray-500'>Profile</h2>
           <img src='https://th.bing.com/th/id/OIP.caK28-NwQV5RX5HJgDhjZwHaHa?w=184&h=184&c=7&r=0&o=5&pid=1.7'
@@ -40,24 +39,36 @@ function App() {
           <div className='text-gray-500'>Software engineer</div>
         </div>
         <div className='grid grid-cols-3'>
-          <div className='flex flex-col items-center justify-center'>
+          <div className='flex flex-col items-center justify-center border-r-2 border-gray-500'>
             <div className='text-2xl'>21</div>
             <div>Shots</div>
           </div>
-          <div className='flex flex-col items-center justify-center' >
+          <div className='flex flex-col items-center justify-center border-r-2 border-gray-500' >
             <div className='text-2xl'>238</div>
             <div>Followers</div>
           </div>
-          <div className='flex flex-col items-center justify-center'>
+          <div className='flex flex-col items-center justify-center '>
             <div className='text-2xl'>101</div>
             <div>Following</div>
           </div>
         </div>
 
         <div className='flex flex-col items-center justify-center gap-3'>
-          <input type='file' className='bg-gray-600 p-4 rounded-xl w-[200px] text-gray-50 m-5 text-center'
+          <input type='file' name='avatar' className='bg-gray-600 p-4 rounded-xl w-[200px] text-gray-50 m-5 text-center'
             placeholder='Upload new avatar'
             onChange={handleImgUpload} />
+
+          {/* TEST Start */}
+          {/* <form method="POST" action="http://localhost:3001/upload" encType="multipart/form-data">
+            <div>
+              <label>Upload profile picture</label>
+              <input type="file" name="avatar" required />
+            </div>
+            <div>
+              <input type="submit" onClick={handleImgUpload} value="Upload new avatar" />
+            </div>
+          </form> */}
+          {/* TEST END */}
           <div className='text-gray-500'>New South Wales, Australia</div>
           <div className='text-gray-500 ml-[50px] mr-[20px] text-center'>I'm a web designer, I work in programs like figma, adobe photoshop, adobe illustrator</div>
         </div>
@@ -65,7 +76,7 @@ function App() {
 
       </div>
 
-      <div className='col-span-3 bg-violet-300 p-10'>
+      <div className='col-span-3  p-10'>
         <div className='mb-4 flex items-center justify-between'>
           <h2 className='text-l font-semibold'>Basic Info</h2>
           <div className='flex gap-5 h-[40px]'>
@@ -100,6 +111,9 @@ function App() {
           <textarea rows="4" cols="50" placeholder="Enter your paragraph" className='w-full rounded border-2'></textarea>
         </div>
       </div>
+
+      <ToastContainer />
+
     </div>
   );
 }
