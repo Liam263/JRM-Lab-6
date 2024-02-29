@@ -1,15 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import logo from './uploads/default.jpeg'
 function App() {
 
   const [selectedImg, setSelectedImg] = useState(null);
-
+  const [avatar, setAvatar] = useState(logo)
   const handleImgUpload = (event) => {
-    // console.log(event.target.files[0])
-    if (setSelectedImg) {
+    setSelectedImg(event.target.files[0])
+  }
+  const handleImgSave = () => {
+    if (selectedImg) {
       const uploadEndPoint = 'http://localhost:3001/upload';
       const formData = new FormData();
       formData.append('avatar', selectedImg);
@@ -23,17 +25,18 @@ function App() {
         .then((data) => {
           toast.success('Image uploaded successfully')
           console.log("Uploaded successfully");
+          console.log(data)
+          setAvatar(URL.createObjectURL(selectedImg));
         })
         .catch((error) => toast.error(error))
     }
-    setSelectedImg(event.target.files[0]);
   }
   return (
     <div className='grid grid-cols-5'>
       <div className='col-span-2 border-r-2 border-gray-500'>
         <div className='flex flex-col mb-4 justify-center items-center'>
           <h2 className='text-2xl text-gray-500'>Profile</h2>
-          <img src='https://th.bing.com/th/id/OIP.caK28-NwQV5RX5HJgDhjZwHaHa?w=184&h=184&c=7&r=0&o=5&pid=1.7'
+          <img src={avatar}
             className='rounded-full h-[100px] border-4 border-gray-500' />
           <div className='text-2xl font-semibold'>Thanh Lam Nguyen</div>
           <div className='text-gray-500'>Software engineer</div>
@@ -58,17 +61,6 @@ function App() {
             placeholder='Upload new avatar'
             onChange={handleImgUpload} />
 
-          {/* TEST Start */}
-          {/* <form method="POST" action="http://localhost:3001/upload" encType="multipart/form-data">
-            <div>
-              <label>Upload profile picture</label>
-              <input type="file" name="avatar" required />
-            </div>
-            <div>
-              <input type="submit" onClick={handleImgUpload} value="Upload new avatar" />
-            </div>
-          </form> */}
-          {/* TEST END */}
           <div className='text-gray-500'>New South Wales, Australia</div>
           <div className='text-gray-500 ml-[50px] mr-[20px] text-center'>I'm a web designer, I work in programs like figma, adobe photoshop, adobe illustrator</div>
         </div>
@@ -81,7 +73,7 @@ function App() {
           <h2 className='text-l font-semibold'>Basic Info</h2>
           <div className='flex gap-5 h-[40px]'>
             <button className='bg-gray-600 p-4 rounded-xl  text-gray-50 '>Cancel</button>
-            <button className='bg-gray-600 p-4 rounded-xl  text-gray-50'>Save</button>
+            <button className='bg-gray-600 p-4 rounded-xl  text-gray-50'onClick={handleImgSave} >Save</button>
           </div>
 
         </div>
